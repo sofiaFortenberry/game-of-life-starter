@@ -1,6 +1,7 @@
 final int SPACING = 20; // each cell's width/height //<>// //<>//
 final float DENSITY = 0.1; // how likely each cell is to be alive at the start
 int[][] grid; // the 2D array to hold 0's and 1's
+boolean paused = false;
 
 void setup() {
   size(800, 600); // adjust accordingly, make sure it's a multiple of SPACING
@@ -8,7 +9,7 @@ void setup() {
   frameRate(10); // controls speed of regeneration
   grid = new int[height / SPACING][width / SPACING];
 
-//initialize grid by randomly giving a state to each cell
+  //initialize grid by randomly giving a state to each cell
   for (int row = 0; row < grid.length; row++) {
     for (int col = 0; col < grid[0].length; col++) {
       if (Math.random() < DENSITY) {
@@ -21,10 +22,17 @@ void setup() {
 }
 
 void draw() {
-  showGrid();
-  grid = calcNextGrid();
+  if (!paused) {
+
+    showGrid();
+    grid = calcNextGrid();
+  }
 }
 
+
+void keyPressed() {
+  paused = !paused;
+}
 
 //determine if a cell will die or be born
 int[][] calcNextGrid() {
